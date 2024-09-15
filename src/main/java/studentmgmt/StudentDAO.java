@@ -2,6 +2,7 @@ package studentmgmt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class StudentDAO {
     public static boolean addStudent(Student student) {
@@ -47,5 +48,20 @@ public class StudentDAO {
         }
 
         return result;
+    }
+
+    public static ResultSet getAllStudents() {
+        ResultSet rs = null;
+        try (Connection connection = ConnectDB.getConnection();) {
+            String query = "SELECT * FROM students;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            rs = preparedStatement.executeQuery();
+            connection.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rs;
     }
 }
