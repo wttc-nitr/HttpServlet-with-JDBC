@@ -64,4 +64,22 @@ public class StudentDAO {
 
         return rs;
     }
+
+    public static boolean deleteStudent(int id) {
+        boolean result = false;
+
+        try (Connection connection = ConnectDB.getConnection();) {
+            String query = "DELETE FROM students WHERE id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            connection.close();
+            result = true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }
